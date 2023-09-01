@@ -1,5 +1,6 @@
 from datacenter.models import Schoolkid, Mark, Chastisement, Subject, Lesson, Commendation
 from random import choice
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 
 TEXT_CHOICES = [
@@ -49,7 +50,7 @@ def create_commendation(kid: str, subject_name: str):
             teacher=lesson.teacher,
         )
     except Subject.DoesNotExist:
-        print("Нет такого предмета")
+        raise ObjectDoesNotExist("Нет такого предмета")
 
 
 def fetch_kid(kid_name: str):
@@ -57,6 +58,6 @@ def fetch_kid(kid_name: str):
         kid = Schoolkid.objects.get(full_name__contains=kid_name)
         return kid
     except Schoolkid.DoesNotExist:
-        print("Такого имени не существует")
+        raise ObjectDoesNotExist("Такого имени не существует")
     except Schoolkid.MultipleObjectsReturned:
-        print("Найдено больше 1 совпадения")
+        raise MultipleObjectsReturned("Найдено больше 1 совпадения")

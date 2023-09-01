@@ -4,9 +4,8 @@ from random import choice
 
 def fix_marks(kid: str):
     schoolkid = fetch_kid(kid)
-    kid_marks = Mark.objects.filter(schoolkid=schoolkid)
-    kid_bad_marks = kid_marks.filter(points__lte=3)
-    kid_bad_marks.update(points=5)
+    bad_marks = Mark.objects.filter(schoolkid=schoolkid, points__lte=3)
+    bad_marks.update(points=5)
 
 
 def remove_chastisements(kid: str):

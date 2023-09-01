@@ -2,6 +2,19 @@ from datacenter.models import Schoolkid, Mark, Chastisement, Subject, Lesson, Co
 from random import choice
 
 
+TEXT_CHOICES = [
+            "Молодцом!",
+            "Хвалю!",
+            "Внимательно слушает учителя",
+            "Лучший ответ в классе!",
+            "Так держать!",
+            "Невероятный успех!",
+            "Лучше всех!",
+            "Пример для подражания",
+            "Гордость класса!",
+        ]
+
+
 def fix_marks(kid: str):
     schoolkid = fetch_kid(kid)
     bad_marks = Mark.objects.filter(schoolkid=schoolkid, points__lte=3)
@@ -28,20 +41,8 @@ def create_commendation(kid: str, subject_name: str):
             subject=subject
         ).order_by("-date").first()
 
-        text_choices = [
-            "Молодцом!",
-            "Хвалю!",
-            "Внимательно слушает учителя",
-            "Лучший ответ в классе!",
-            "Так держать!",
-            "Невероятный успех!",
-            "Лучше всех!",
-            "Пример для подражания",
-            "Гордость класса!",
-        ]
-
         Commendation.objects.create(
-            text=choice(text_choices),
+            text=choice(TEXT_CHOICES),
             created=lesson.date,
             schoolkid=schoolkid,
             subject=subject,
